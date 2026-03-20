@@ -9,8 +9,8 @@ export default async function DashboardPage() {
   const categories = getCategories();
   const users = getUsers();
 
-  const featuredCount = products.filter((p) => p.isFeatured).length;
-  const newCount = products.filter((p) => p.isNew).length;
+  const featuredCount = products.filter((p) => p.is_featured).length;
+  const newCount = products.filter((p) => p.is_new).length;
 
   const stats = [
     { title: "Нийт бүтээгдэхүүн", value: products.length, desc: "Каталогт бүртгэлтэй", icon: Package, color: "text-blue-600" },
@@ -22,7 +22,7 @@ export default async function DashboardPage() {
   const categoryBreakdown = categories
     .map((cat) => ({
       ...cat,
-      count: products.filter((p) => p.categoryId === cat.id).length,
+      count: products.filter((p) => p.category_id === cat.id).length,
     }))
     .filter((cat) => cat.count > 0)
     .sort((a, b) => b.count - a.count);
