@@ -1,0 +1,19 @@
+{
+  "categories": [
+    {"id":"diagnostic-imaging","order":1,"name":"Дүрс оношилгооны тоног төхөөрөмж","nameEn":"Diagnostic imaging","slug":"diagnostic-imaging","description":"","descriptionEn":"","icon":"scan"},
+    {"id":"endoscopy","order":2,"name":"Дурангийн тоног төхөөрөмж","nameEn":"Endoscopy","slug":"endoscopy","description":"","descriptionEn":"","icon":"eye"},
+    {"id":"icu","order":3,"name":"Эрчимт эмчилгээний тоног төхөөрөмж","nameEn":"Intensive care","slug":"icu","description":"","descriptionEn":"","icon":"heart-pulse"},
+    {"id":"surgery","order":4,"name":"Мэс заслын тоног төхөөрөмж","nameEn":"Surgical equipment","slug":"surgery","description":"","descriptionEn":"","icon":"stethoscope"},
+    {"id":"physio","order":5,"name":"Физик эмчилгээний тоног төхөөрөмж","nameEn":"Physical therapy","slug":"physio","description":"","descriptionEn":"","icon":"activity"},
+    {"id":"obgyn","order":6,"name":"Нярай, эх барихын тоног төхөөрөмж","nameEn":"Neonatal & obstetrics","slug":"obgyn","description":"","descriptionEn":"","icon":"baby"},
+    {"id":"other","order":7,"name":"Бусад эмнэлгийн тоног төхөөрөмж","nameEn":"Other medical equipment","slug":"other","description":"","descriptionEn":"","icon":"package"},
+    {"id":"sterilization","order":8,"name":"Ариутгал, халдваргүйжүүлэх тоног төхөөрөмж","nameEn":"Sterilization & disinfection","slug":"sterilization","description":"","descriptionEn":"","icon":"sparkles"},
+    {"id":"laundry","order":9,"name":"Угаалгын тоног төхөөрөмж","nameEn":"Laundry equipment","slug":"laundry","description":"","descriptionEn":"","icon":"washer"},
+    {"id":"clinical-lab","order":10,"name":"Клиник лабораторийн тоног төхөөрөмж","nameEn":"Clinical laboratory","slug":"clinical-lab","description":"","descriptionEn":"","icon":"microscope"},
+    {"id":"chemical-lab","order":11,"name":"Химийн лабораторийн тоног төхөөрөмж","nameEn":"Chemical laboratory","slug":"chemical-lab","description":"","descriptionEn":"","icon":"beaker"},
+    {"id":"disposable","order":12,"name":"Нэг удаагийн хэрэгсэл","nameEn":"Disposables","slug":"disposable","description":"","descriptionEn":"","icon":"package"},
+    {"id":"beds-furniture","order":13,"name":"Эмнэлгийн ор, тавилга","nameEn":"Beds & furniture","slug":"beds-furniture","description":"","descriptionEn":"","icon":"bed"},
+    {"id":"gas-system","order":14,"name":"Хийн системийн тоног төхөөрөмж","nameEn":"Gas system equipment","slug":"gas-system","description":"","descriptionEn":"","icon":"wind"},
+    {"id":"training","order":15,"name":"Сургалтын хэрэгсэл","nameEn":"Training equipment","slug":"training","description":"","descriptionEn":"","icon":"graduation-cap"}
+  ]
+}

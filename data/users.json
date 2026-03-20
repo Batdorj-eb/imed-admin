@@ -1,0 +1,13 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Admin",
+      "email": "admin@imedtech.mn",
+      "password": "$2b$10$/q8zhiE0jP.63f/BhIRO2epfTweNrpuu6sbQAmlMiA/xjyUazn2FO",
+      "role": "admin",
+      "createdAt": "2026-03-16T04:16:00.608Z",
+      "isActive": true
+    }
+  ]
+}
