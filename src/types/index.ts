@@ -44,6 +44,17 @@ export interface InformationItem {
   updated_at?: string;
 }
 
+export interface Category {
+  id: string;
+  order: number;
+  name: string;
+  nameEn: string;
+  slug: string;
+  description?: string;
+  descriptionEn?: string;
+  icon?: string;
+}
+
 export interface Product {
   id: number;
   brand: string;
