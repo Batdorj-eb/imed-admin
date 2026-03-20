@@ -9,7 +9,7 @@ export default async function CategoriesPage() {
 
   const categoriesWithCount = categories.map((cat) => ({
     ...cat,
-    productCount: products.filter((p) => p.categoryId === cat.id).length,
+    productCount: products.filter((p) => p.category_id === cat.id).length,
   }));
 
   return (
