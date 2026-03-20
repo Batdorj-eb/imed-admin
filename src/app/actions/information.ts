@@ -5,6 +5,15 @@ import { redirect } from "next/navigation";
 import { getSession, hasPermission } from "@/lib/auth";
 import { apiPost, apiPut, apiDelete } from "@/lib/api";
 
+type InformationPayload = {
+  image: string;
+  title_mn: string;
+  title_en: string;
+  description_mn: string;
+  description_en: string;
+  sort_order: number;
+};
+
 export async function createInformationItemAction(_prevState: unknown, formData: FormData) {
   const session = await getSession();
   if (!session || !hasPermission(session.role, "editor")) {
@@ -17,7 +26,7 @@ export async function createInformationItemAction(_prevState: unknown, formData:
     return { error: "Гарчиг заавал шаардлагатай" };
   }
 
-  const body = {
+  const body: InformationPayload = {
     image: (formData.get("image") as string) || "",
     title_mn: title,
     title_en: "",
@@ -28,8 +37,8 @@ export async function createInformationItemAction(_prevState: unknown, formData:
 
   try {
     await apiPost("/information", body);
-  } catch (err: any) {
-    return { error: err.message || "Алдаа гарлаа" };
+  } catch (err: unknown) {
+    return { error: err instanceof Error ? err.message : "Алдаа гарлаа" };
   }
 
   revalidatePath("/information");
@@ -45,7 +54,7 @@ export async function updateInformationItemAction(_prevState: unknown, formData:
   const id = formData.get("id") as string;
   if (!id) return { error: "ID шаардлагатай" };
 
-  const body = {
+  const body: InformationPayload = {
     image: (formData.get("image") as string) || "",
     title_mn: (formData.get("title_mn") as string) || "",
     title_en: "",
@@ -56,8 +65,8 @@ export async function updateInformationItemAction(_prevState: unknown, formData:
 
   try {
     await apiPut(`/information/${id}`, body);
-  } catch (err: any) {
-    return { error: err.message || "Алдаа гарлаа" };
+  } catch (err: unknown) {
+    return { error: err instanceof Error ? err.message : "Алдаа гарлаа" };
   }
 
   revalidatePath("/information");
@@ -72,8 +81,8 @@ export async function deleteInformationItemAction(id: string | number) {
 
   try {
     await apiDelete(`/information/${id}`);
-  } catch (err: any) {
-    return { error: err.message || "Алдаа гарлаа" };
+  } catch (err: unknown) {
+    return { error: err instanceof Error ? err.message : "Алдаа гарлаа" };
   }
 
   revalidatePath("/information");

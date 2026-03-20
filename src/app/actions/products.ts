@@ -5,6 +5,31 @@ import { redirect } from "next/navigation";
 import { getSession, hasPermission } from "@/lib/auth";
 import { apiPost, apiPut, apiDelete } from "@/lib/api";
 
+type ProductFeature = {
+  feature: string;
+  feature_en: string;
+};
+
+type ProductSpecification = {
+  spec_key: string;
+  spec_value: string;
+};
+
+type ProductPayload = {
+  brand: string;
+  category_id: string;
+  name: string;
+  name_en: string;
+  description: string;
+  description_en: string;
+  image: string;
+  brochure: string;
+  is_featured: boolean;
+  is_new: boolean;
+  features: ProductFeature[];
+  specifications: ProductSpecification[];
+};
+
 export async function createProductAction(_prevState: unknown, formData: FormData) {
   const session = await getSession();
   if (!session || !hasPermission(session.role, "editor")) {
@@ -18,16 +43,19 @@ export async function createProductAction(_prevState: unknown, formData: FormDat
   }
 
   const featuresMn = ((formData.get("features") as string) || "").split("\n").filter(Boolean);
-  const features = featuresMn.map((f) => ({ feature: f, feature_en: f }));
+  const features: ProductFeature[] = featuresMn.map((f: string) => ({
+    feature: f,
+    feature_en: f,
+  }));
 
   const specKeys = ((formData.get("spec_keys") as string) || "").split("\n").filter(Boolean);
   const specValues = ((formData.get("spec_values") as string) || "").split("\n").filter(Boolean);
-  const specifications = specKeys.map((key, i) => ({
+  const specifications: ProductSpecification[] = specKeys.map((key: string, i: number) => ({
     spec_key: key,
     spec_value: specValues[i] || "",
   }));
 
-  const body = {
+  const body: ProductPayload = {
     brand: (formData.get("brand") as string) || "",
     category_id: (formData.get("category_id") as string) || "",
     name,
@@ -44,8 +72,8 @@ export async function createProductAction(_prevState: unknown, formData: FormDat
 
   try {
     await apiPost("/products", body);
-  } catch (err: any) {
-    return { error: err.message || "Алдаа гарлаа" };
+  } catch (err: unknown) {
+    return { error: err instanceof Error ? err.message : "Алдаа гарлаа" };
   }
 
   revalidatePath("/products");
@@ -62,17 +90,20 @@ export async function updateProductAction(_prevState: unknown, formData: FormDat
   if (!id) return { error: "Бүтээгдэхүүний ID шаардлагатай" };
 
   const featuresMn = ((formData.get("features") as string) || "").split("\n").filter(Boolean);
-  const features = featuresMn.map((f) => ({ feature: f, feature_en: f }));
+  const features: ProductFeature[] = featuresMn.map((f: string) => ({
+    feature: f,
+    feature_en: f,
+  }));
 
   const specKeys = ((formData.get("spec_keys") as string) || "").split("\n").filter(Boolean);
   const specValues = ((formData.get("spec_values") as string) || "").split("\n").filter(Boolean);
-  const specifications = specKeys.map((key, i) => ({
+  const specifications: ProductSpecification[] = specKeys.map((key: string, i: number) => ({
     spec_key: key,
     spec_value: specValues[i] || "",
   }));
 
   const name = (formData.get("name") as string) || "";
-  const body = {
+  const body: ProductPayload = {
     brand: (formData.get("brand") as string) || "",
     category_id: (formData.get("category_id") as string) || "",
     name,
@@ -89,8 +120,8 @@ export async function updateProductAction(_prevState: unknown, formData: FormDat
 
   try {
     await apiPut(`/products/${id}`, body);
-  } catch (err: any) {
-    return { error: err.message || "Алдаа гарлаа" };
+  } catch (err: unknown) {
+    return { error: err instanceof Error ? err.message : "Алдаа гарлаа" };
   }
 
   revalidatePath("/products");
@@ -105,8 +136,8 @@ export async function deleteProductAction(id: string | number) {
 
   try {
     await apiDelete(`/products/${id}`);
-  } catch (err: any) {
-    return { error: err.message || "Алдаа гарлаа" };
+  } catch (err: unknown) {
+    return { error: err instanceof Error ? err.message : "Алдаа гарлаа" };
   }
 
   revalidatePath("/products");
