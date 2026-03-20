@@ -20,7 +20,7 @@ export function getProducts(): Product[] {
 }
 
 export function getProduct(id: string): Product | undefined {
-  return getProducts().find((p) => p.id === id);
+  return getProducts().find((p) => String(p.id) === id);
 }
 
 export function createProduct(product: Product): Product {
@@ -32,7 +32,7 @@ export function createProduct(product: Product): Product {
 
 export function updateProduct(id: string, updates: Partial<Product>): Product | null {
   const data = readJson<{ products: Product[] }>("products.json");
-  const index = data.products.findIndex((p) => p.id === id);
+  const index = data.products.findIndex((p) => String(p.id) === id);
   if (index === -1) return null;
   data.products[index] = { ...data.products[index], ...updates };
   writeJson("products.json", data);
@@ -41,7 +41,7 @@ export function updateProduct(id: string, updates: Partial<Product>): Product | 
 
 export function deleteProduct(id: string): boolean {
   const data = readJson<{ products: Product[] }>("products.json");
-  const index = data.products.findIndex((p) => p.id === id);
+  const index = data.products.findIndex((p) => String(p.id) === id);
   if (index === -1) return false;
   data.products.splice(index, 1);
   writeJson("products.json", data);
