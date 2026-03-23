@@ -84,7 +84,7 @@ export default function InformationItemForm({ item }: InformationItemFormProps) 
                 {imageUrl ? (
                   <>
                     <Image
-                      src={imageUrl.startsWith("/uploads") ? `http://localhost:4000${imageUrl}` : imageUrl}
+                      src={imageUrl.startsWith("/uploads") ? `${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '')}${imageUrl}` : imageUrl}
                       alt="Preview"
                       fill
                       className="object-contain p-2"

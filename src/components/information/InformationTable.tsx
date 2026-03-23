@@ -58,7 +58,7 @@ export default function InformationTable({ items, canEdit }: InformationTablePro
                     <div className="relative w-16 h-16 rounded overflow-hidden bg-muted">
                       {item.image ? (
                         <Image
-                          src={item.image.startsWith("/uploads") ? `http://localhost:4000${item.image}` : item.image}
+                          src={item.image.startsWith("/uploads") ? `${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '')}${item.image}` : item.image}
                           alt={item.title_mn}
                           fill
                           className="object-cover"
