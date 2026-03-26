@@ -38,9 +38,25 @@ const TYPE_LABELS: Record<InquiryType, string> = {
   contact: "Холбоо барих",
 };
 
+/** DB-д product хэвээр үлдсэн хуучин вэбсайтын холбоо барих маягтыг contact гэж харуулна */
+function looksLikeWebsiteContactForm(productName: string): boolean {
+  const pn = productName.trim();
+  const titles = new Set([
+    "Вэбсайт — Холбоо барих хүсэлт",
+    "Website — Contact request",
+    "Вэбсайт — Холбоо барих / Contact",
+  ]);
+  if (titles.has(pn)) return true;
+  if (pn.startsWith("Вэбсайт —") && pn.includes("Холбоо")) return true;
+  if (/^website\s*[—–-]\s*contact/i.test(pn)) return true;
+  return false;
+}
+
 function normalizeInquiryType(i: ProductInquiry): InquiryType {
   const t = i.inquiry_type as string | undefined;
-  if (t === "service" || t === "contact") return t;
+  if (t === "service") return "service";
+  if (t === "contact") return "contact";
+  if (looksLikeWebsiteContactForm(i.product_name || "")) return "contact";
   return "product";
 }
 
