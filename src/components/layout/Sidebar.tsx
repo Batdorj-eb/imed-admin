@@ -39,7 +39,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { title: "Хянах самбар", url: "/dashboard", icon: LayoutDashboard, minRole: "viewer" },
   { title: "Бүтээгдэхүүн", url: "/products", icon: Package, minRole: "viewer" },
-  { title: "Үнийн саналууд", url: "/inquiries", icon: MessageSquareQuote, minRole: "viewer" },
+  { title: "Санал хүсэлт", url: "/inquiries", icon: MessageSquareQuote, minRole: "viewer" },
   { title: "Мэдээлэл", url: "/information", icon: FileText, minRole: "viewer" },
   { title: "Хэрэглэгч", url: "/users", icon: Users, minRole: "admin" },
 ];

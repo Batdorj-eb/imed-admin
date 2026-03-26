@@ -16,9 +16,9 @@ export default async function InquiriesPage() {
     <div className="space-y-6">
       <InquiryCountRefresher />
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Үнийн саналууд</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Санал хүсэлт</h1>
         <p className="text-muted-foreground">
-          Хэрэглэгчдээс ирсэн үнийн санал хүсэлтүүд ({inquiries.length} санал)
+          Вэбсайтаас ирсэн холбоо барих болон үнийн санал ({inquiries.length})
         </p>
       </div>
 

@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Eye, X, Building2, Phone, Mail, Package, FileText, Wrench } from "lucide-react";
+import { Eye, X, Building2, Phone, Mail, Package, FileText, Wrench, MessageCircle } from "lucide-react";
 import type { ProductInquiry, InquiryType } from "@/types";
 
 interface InquiriesTableProps {
@@ -35,7 +35,14 @@ function formatDate(iso: string) {
 const TYPE_LABELS: Record<InquiryType, string> = {
   product: "Бүтээгдэхүүн",
   service: "Үйлчилгээ",
+  contact: "Холбоо барих",
 };
+
+function normalizeInquiryType(i: ProductInquiry): InquiryType {
+  const t = i.inquiry_type as string | undefined;
+  if (t === "service" || t === "contact") return t;
+  return "product";
+}
 
 export default function InquiriesTable({ inquiries }: InquiriesTableProps) {
   const [selectedInquiry, setSelectedInquiry] = useState<ProductInquiry | null>(null);
@@ -43,20 +50,26 @@ export default function InquiriesTable({ inquiries }: InquiriesTableProps) {
 
   const filteredInquiries = useMemo(() => {
     if (typeFilter === "all") return inquiries;
-    return inquiries.filter((i) => (i.inquiry_type || "product") === typeFilter);
+    return inquiries.filter((i) => normalizeInquiryType(i) === typeFilter);
   }, [inquiries, typeFilter]);
 
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap gap-2">
-        {(["all", "product", "service"] as const).map((t) => (
+        {(["all", "contact", "product", "service"] as const).map((t) => (
           <Button
             key={t}
             variant={typeFilter === t ? "default" : "outline"}
             size="sm"
             onClick={() => setTypeFilter(t)}
           >
-            {t === "all" ? "Бүгд" : t === "product" ? "Бүтээгдэхүүн" : "Үйлчилгээ"}
+            {t === "all"
+              ? "Бүгд"
+              : t === "contact"
+                ? "Холбоо барих"
+                : t === "product"
+                  ? "Бүтээгдэхүүн"
+                  : "Үйлчилгээ"}
           </Button>
         ))}
       </div>
@@ -67,9 +80,9 @@ export default function InquiriesTable({ inquiries }: InquiriesTableProps) {
             <TableRow>
               <TableHead>Төрөл</TableHead>
               <TableHead>Огноо</TableHead>
-              <TableHead>Байгууллага</TableHead>
+              <TableHead>Нэр / Байгууллага</TableHead>
               <TableHead>Утас</TableHead>
-              <TableHead>Бүтээгдэхүүн / Үйлчилгээ</TableHead>
+              <TableHead>Бүтээгдэхүүн / Төрөл</TableHead>
               <TableHead className="text-right">Үйлдэл</TableHead>
             </TableRow>
           </TableHeader>
@@ -77,7 +90,7 @@ export default function InquiriesTable({ inquiries }: InquiriesTableProps) {
             {filteredInquiries.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} className="h-24 text-center text-muted-foreground">
-                  {inquiries.length === 0 ? "Үнийн санал ирээгүй байна." : "Сонгосон төрлийн санал олдсонгүй."}
+                  {inquiries.length === 0 ? "Ирсэн хүсэлт байхгүй байна." : "Сонгосон төрлийн бичлэг олдсонгүй."}
                 </TableCell>
               </TableRow>
             ) : (
@@ -93,17 +106,21 @@ export default function InquiriesTable({ inquiries }: InquiriesTableProps) {
                   <TableCell>
                     <span
                       className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                        inquiry.inquiry_type === "service"
+                        normalizeInquiryType(inquiry) === "service"
                           ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300"
-                          : "bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300"
+                          : normalizeInquiryType(inquiry) === "contact"
+                            ? "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200"
+                            : "bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300"
                       }`}
                     >
-                      {inquiry.inquiry_type === "service" ? (
+                      {normalizeInquiryType(inquiry) === "service" ? (
                         <Wrench className="size-3" />
+                      ) : normalizeInquiryType(inquiry) === "contact" ? (
+                        <MessageCircle className="size-3" />
                       ) : (
                         <Package className="size-3" />
                       )}
-                      {TYPE_LABELS[inquiry.inquiry_type || "product"]}
+                      {TYPE_LABELS[normalizeInquiryType(inquiry)]}
                     </span>
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground">
@@ -151,7 +168,10 @@ export default function InquiriesTable({ inquiries }: InquiriesTableProps) {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">Үнийн санал #{selectedInquiry.id}</h2>
+              <h2 className="text-lg font-semibold">
+                {normalizeInquiryType(selectedInquiry) === "contact" ? "Санал хүсэлт" : "Үнийн санал"} #
+                {selectedInquiry.id}
+              </h2>
               <Button variant="ghost" size="icon" onClick={() => setSelectedInquiry(null)}>
                 <X className="size-4" />
               </Button>
@@ -161,7 +181,9 @@ export default function InquiriesTable({ inquiries }: InquiriesTableProps) {
               <div className="flex items-start gap-3">
                 <Building2 className="size-4 mt-0.5 text-muted-foreground" />
                 <div>
-                  <p className="text-muted-foreground">Байгуулгын нэр</p>
+                  <p className="text-muted-foreground">
+                    {normalizeInquiryType(selectedInquiry) === "contact" ? "Нэр" : "Байгуулгын нэр"}
+                  </p>
                   <p className="font-medium">{selectedInquiry.organization_name}</p>
                 </div>
               </div>
@@ -186,12 +208,14 @@ export default function InquiriesTable({ inquiries }: InquiriesTableProps) {
                 <Package className="size-4 mt-0.5 text-muted-foreground" />
                 <div>
                   <p className="text-muted-foreground">
-                    {selectedInquiry.inquiry_type === "service"
-                      ? "Үнийн санал авах үйлчилгээ"
-                      : "Үнийн санал авах бүтээгдэхүүн"}
+                    {normalizeInquiryType(selectedInquiry) === "contact"
+                      ? "Төрөл"
+                      : selectedInquiry.inquiry_type === "service"
+                        ? "Үнийн санал авах үйлчилгээ"
+                        : "Үнийн санал авах бүтээгдэхүүн"}
                   </p>
                   <p className="font-medium">{selectedInquiry.product_name}</p>
-                  {selectedInquiry.brand && (
+                  {selectedInquiry.brand && normalizeInquiryType(selectedInquiry) !== "contact" && (
                     <p className="text-xs text-muted-foreground">Брэнд: {selectedInquiry.brand}</p>
                   )}
                 </div>
@@ -202,7 +226,11 @@ export default function InquiriesTable({ inquiries }: InquiriesTableProps) {
                   <FileText className="size-4 mt-0.5 text-muted-foreground" />
                   <div>
                     <p className="text-muted-foreground">
-                      {selectedInquiry.inquiry_type === "service" ? "Дэлгэрэнгүй тайлбар" : "Нэмэлт шаардлага"}
+                      {normalizeInquiryType(selectedInquiry) === "contact"
+                        ? "Нэмэлт мэдээлэл"
+                        : selectedInquiry.inquiry_type === "service"
+                          ? "Дэлгэрэнгүй тайлбар"
+                          : "Нэмэлт шаардлага"}
                     </p>
                     <p className="font-medium whitespace-pre-wrap">{selectedInquiry.requirements}</p>
                   </div>

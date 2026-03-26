@@ -73,7 +73,7 @@ export interface Product {
   updated_at?: string;
 }
 
-export type InquiryType = "product" | "service";
+export type InquiryType = "product" | "service" | "contact";
 
 export interface ProductInquiry {
   id: number;
