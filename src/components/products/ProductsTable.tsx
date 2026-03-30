@@ -85,7 +85,7 @@ export default function ProductsTable({ products, canEdit }: ProductsTableProps)
                   </TableCell>
                   <TableCell className="text-sm">{product.brand}</TableCell>
                   <TableCell className="text-center">
-                    <div className="flex items-center justify-center gap-1">
+                    <div className="flex flex-wrap items-center justify-center gap-1">
                       {product.is_featured && <Badge variant="secondary" className="text-xs">Онцлох</Badge>}
                       {product.is_new && <Badge className="text-xs">Шинэ</Badge>}
                     </div>

@@ -42,6 +42,7 @@ export default function ProductForm({ product }: ProductFormProps) {
   const [categoryId, setCategoryId] = useState(product?.category_id || "");
   const [isFeatured, setIsFeatured] = useState(product?.is_featured ?? false);
   const [isNew, setIsNew] = useState(product?.is_new ?? false);
+  const [hasWarranty, setHasWarranty] = useState(product?.has_warranty ?? true);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
@@ -91,6 +92,7 @@ export default function ProductForm({ product }: ProductFormProps) {
         <input type="hidden" name="image" value={imageUrl} />
         <input type="hidden" name="is_featured" value={isFeatured ? "on" : ""} />
         <input type="hidden" name="is_new" value={isNew ? "on" : ""} />
+        <input type="hidden" name="has_warranty" value={hasWarranty ? "on" : ""} />
 
         {state?.error && (
           <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
@@ -145,6 +147,16 @@ export default function ProductForm({ product }: ProductFormProps) {
                     onCheckedChange={setIsNew}
                   />
                   <Label htmlFor="is_new" className="text-sm cursor-pointer" onClick={() => setIsNew((v) => !v)}>Шинэ</Label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Switch
+                    id="has_warranty"
+                    checked={hasWarranty}
+                    onCheckedChange={setHasWarranty}
+                  />
+                  <Label htmlFor="has_warranty" className="text-sm cursor-pointer" onClick={() => setHasWarranty((v) => !v)}>
+                    Баталгаат хугацаатай
+                  </Label>
                 </div>
               </div>
             </CardContent>

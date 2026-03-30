@@ -67,6 +67,7 @@ export interface Product {
   brochure?: string;
   is_featured?: boolean;
   is_new?: boolean;
+  has_warranty?: boolean;
   features?: ProductFeature[];
   specifications?: ProductSpecification[];
   created_at?: string;

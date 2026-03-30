@@ -26,6 +26,7 @@ type ProductPayload = {
   brochure: string;
   is_featured: boolean;
   is_new: boolean;
+  has_warranty: boolean;
   features: ProductFeature[];
   specifications: ProductSpecification[];
 };
@@ -66,6 +67,7 @@ export async function createProductAction(_prevState: unknown, formData: FormDat
     brochure: (formData.get("brochure") as string) || "",
     is_featured: formData.get("is_featured") === "on",
     is_new: formData.get("is_new") === "on",
+    has_warranty: formData.get("has_warranty") === "on",
     features,
     specifications,
   };
@@ -114,6 +116,7 @@ export async function updateProductAction(_prevState: unknown, formData: FormDat
     brochure: (formData.get("brochure") as string) || "",
     is_featured: formData.get("is_featured") === "on",
     is_new: formData.get("is_new") === "on",
+    has_warranty: formData.get("has_warranty") === "on",
     features,
     specifications,
   };
