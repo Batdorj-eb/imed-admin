@@ -42,7 +42,7 @@ export default function ProductForm({ product }: ProductFormProps) {
   const [categoryId, setCategoryId] = useState(product?.category_id || "");
   const [isFeatured, setIsFeatured] = useState(product?.is_featured ?? false);
   const [isNew, setIsNew] = useState(product?.is_new ?? false);
-  const [hasWarranty, setHasWarranty] = useState(product?.has_warranty ?? true);
+  const [hasWarranty, setHasWarranty] = useState(product?.has_warranty ?? false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
