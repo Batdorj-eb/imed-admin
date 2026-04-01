@@ -67,7 +67,7 @@ export async function createProductAction(_prevState: unknown, formData: FormDat
     brochure: (formData.get("brochure") as string) || "",
     is_featured: formData.get("is_featured") === "on",
     is_new: formData.get("is_new") === "on",
-    has_warranty: formData.get("has_warranty") === "on",
+    has_warranty: formData.get("has_warranty") === "1",
     features,
     specifications,
   };
@@ -116,7 +116,7 @@ export async function updateProductAction(_prevState: unknown, formData: FormDat
     brochure: (formData.get("brochure") as string) || "",
     is_featured: formData.get("is_featured") === "on",
     is_new: formData.get("is_new") === "on",
-    has_warranty: formData.get("has_warranty") === "on",
+    has_warranty: formData.get("has_warranty") === "1",
     features,
     specifications,
   };
