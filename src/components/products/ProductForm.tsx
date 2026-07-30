@@ -26,6 +26,7 @@ const PRODUCT_CATEGORIES = [
   { id: "beds-furniture", name: "Эмнэлгийн ор, тавилга" },
   { id: "gas-system", name: "Хийн системийн тоног төхөөрөмж, хэрэглэгдэхүүн" },
   { id: "training", name: "Сургалтын хэрэгсэл" },
+  { id: "accessories-spare-parts", name: "Дагалдах хэрэгсэл, сэлбэг" },
 ];
 import { createProductAction, updateProductAction } from "@/app/actions/products";
 import { uploadImageAction } from "@/app/actions/upload";
